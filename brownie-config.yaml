@@ -1,0 +1,12 @@
+autofetch_sources: True
+compiler:
+  solc:
+    remappings:
+      - "@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.6.0"
+networks:
+  default: development
+  development:
+    verify: False
+  kovan:
+    verify: True
+
