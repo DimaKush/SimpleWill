@@ -56,7 +56,7 @@ only after release time. Deployer should extend release time to prove his access
 
    ```python
    # set new release time
-   SimpleWill[-1].setNewReleaseTime(1661455347, {'from': accounsts[0]})
+   SimpleWill[-1].setNewReleaseTime(1661455347, {'from': accounts[0]})
    # see workflow
    run('deploy_and_release_SimpleWill')
    ```
