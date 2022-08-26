@@ -75,9 +75,13 @@ brownie test
 ## Resources
 
 [Brownie documentation](https://eth-brownie.readthedocs.io/en/stable/)
+
 ["Getting Started with Brownie"](https://medium.com/@iamdefinitelyahuman/getting-started-with-brownie-part-1-9b2181f4cb99)
+
 [Patrick Collins](https://twitter.com/PatrickAlphaC) tutorial on [youtube](https://www.youtube.com/watch?v=M576WGiDBdQ&t=43350s)
+
 [Brownie Mixes](https://github.com/brownie-mix)
+
 [OpenZeppelin docs](https://docs.openzeppelin.com/)
 
 
