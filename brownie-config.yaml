@@ -1,12 +1,24 @@
 autofetch_sources: True
+dotenv: .env
 compiler:
   solc:
     remappings:
-      - "@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.6.0"
+      - "@openzeppelin=OpenZeppelin/openzeppelin-contracts@4.7.3"
 networks:
   default: development
   development:
     verify: False
-  kovan:
+  goerli:
     verify: True
 
+wallets:
+  deployer: ${DEPLOYER_PRIVATE_KEY}
+  beneficiary: ${BENEFICIARY_PRIVATE_KEY}
+  executor:  ${EXECUTOR_PRIVATE_KEY}
+
+settings:
+  delay: 100 # in seconds
+  test_delay: 10 # for tests
+  n_contracts: 2 # for mocks
+  n_ids: 3 # for mocks
+  value: 100 # for mocks

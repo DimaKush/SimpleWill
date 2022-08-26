@@ -4,6 +4,7 @@ import brownie.network
 import pytest
 
 
+
 @pytest.fixture(scope='function', autouse=True)
 def setup(fn_isolation):
     """
@@ -15,40 +16,41 @@ def setup(fn_isolation):
 
 @pytest.fixture(scope='module')
 def n_contracts():
-    yield 5
+    yield config['settings']['n_contracts']
 
 
 @pytest.fixture(scope='module')
 def value():
-    yield 8
+    yield config['settings']['value']
 
 
 @pytest.fixture(scope='module')
 def n_ids():
-    yield 9
+    yield config['settings']['n_ids']
 
 
 @pytest.fixture(scope='module')
 def deployer(accounts):
-    yield accounts[0]
-
+    deployer = accounts[0]
+    yield deployer
 
 
 @pytest.fixture(scope='module')
 def beneficiary(accounts):
-    yield accounts[1]
-
+    beneficiary = accounts[1]
+    yield beneficiary
 
 
 @pytest.fixture(scope='module')
-def new_beneficiary(accounts):
-    yield accounts[2]
+def executor(accounts):
+    executor = accounts[2]
+    yield executor
 
 
 @pytest.fixture(scope='module')
 def ERC20_token_contracts(deployer, TokenERC20, n_contracts, value):
     """
-    :yield: brownie.Co of ERC20 contracts
+    :yield: instances of ERC20 contracts
     """
     for i in range(n_contracts):
         TokenERC20.deploy(value,
@@ -89,12 +91,13 @@ def ERC1155_token_contracts(deployer, TokenERC1155, value, n_contracts, n_ids):
 @pytest.fixture(scope='module', autouse=True)
 def will_contract(deployer, beneficiary, SimpleWill, ERC20_token_contracts, ERC721_token_contracts,
                   ERC1155_token_contracts):
-    release_time = round(datetime.datetime.timestamp(datetime.datetime.now() + datetime.timedelta(seconds=10)))
-    yield SimpleWill.deploy(
+    release_time = round(datetime.datetime.timestamp(datetime.datetime.now() + datetime.timedelta(seconds=config['settings']['test_delay'])))
+    contract = deployer.deploy(
+        SimpleWill,
         beneficiary,
-        release_time,
-        {'from': deployer}
+        release_time
     )
+    yield contract
 
 
 @pytest.fixture(scope="module", autouse=True)

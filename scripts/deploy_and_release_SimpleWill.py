@@ -5,11 +5,12 @@ from ..scripts.get_accounts import get_accounts
 
 
 def main():
-    n_contracts = 2
-    n_ids = 2
-    value = 10
+    n_contracts = config['settings']['n_contracts']
+    n_ids = config['settings']['n_ids']
+    value = config['settings']['value']
     publish_source = config['networks'][network.show_active()]['verify']
-    deployer, beneficiary = get_accounts()
+    deployer, beneficiary, executor = get_accounts()
+    
     for i in range(n_contracts):
         TokenERC20.deploy(value,
                           f"TokenERC20_{i}",
@@ -53,5 +54,5 @@ def main():
         [list(range(n_ids))] * n_contracts,
         [list(range(n_ids))] * n_contracts,
         [[value] * n_ids] * n_contracts,
-        {'from': deployer}
+        {'from': executor}
     )
