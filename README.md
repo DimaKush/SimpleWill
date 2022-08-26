@@ -1,8 +1,8 @@
 # Simple Will contract
 
 Delayed recovery tool for ERC20, ERC721 and ERC1155 tokens.
-Contract is used as a will: delpoyer of contract allow tokens to SimpleWill that can be tranfered from deployer to beneficiary
-only after release time. Testator should extend release time to prove his access to account. When release time is passed, anybody can call release functions to proceed wills logic. 
+Smart contract is used as a will: deployer of contract allow tokens to SimpleWill that can be tranfered from deployer to beneficiary
+only after release time. Deployer should extend release time to prove his access to account. When release time is passed, anybody can call release functions to proceed wills logic. 
 
 ## Installation
 
