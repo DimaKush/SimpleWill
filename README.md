@@ -13,13 +13,6 @@ only after release time. Deployer should extend release time to prove his access
    git clone https://github.com/DimaKush/SimpleWill
    cd SimpleWill
    ```
-
-2. Install [OpenZeppelin](https://github.com/OpenZeppelin/openzeppelin-contracts) packages
-
-   ```bash
-   brownie pm install OpenZeppelin/openzeppelin-contracts@4.7.3
-   ```
-
 3. If you want to deploy on testnets, do the following.
 
    Set our environment variables to a .env file. You can use the .env_example in this repo
