@@ -1,6 +1,5 @@
 import datetime
 from brownie import config
-import brownie.network
 import pytest
 
 
@@ -48,6 +47,12 @@ def executor(accounts):
 
 
 @pytest.fixture(scope='module')
+def test_delay():
+    test_delay = config['settings']['test_delay']
+    yield test_delay
+
+
+@pytest.fixture(scope='module')
 def ERC20_token_contracts(deployer, TokenERC20, n_contracts, value):
     """
     :yield: instances of ERC20 contracts
@@ -89,9 +94,8 @@ def ERC1155_token_contracts(deployer, TokenERC1155, value, n_contracts, n_ids):
 
 
 @pytest.fixture(scope='module', autouse=True)
-def will_contract(deployer, beneficiary, SimpleWill, ERC20_token_contracts, ERC721_token_contracts,
-                  ERC1155_token_contracts):
-    release_time = round(datetime.datetime.timestamp(datetime.datetime.now() + datetime.timedelta(seconds=config['settings']['test_delay'])))
+def simple_will_contract(deployer, beneficiary, SimpleWill, test_delay):
+    release_time = round(datetime.datetime.timestamp(datetime.datetime.now() + datetime.timedelta(seconds=test_delay)))
     contract = deployer.deploy(
         SimpleWill,
         beneficiary,
@@ -101,11 +105,11 @@ def will_contract(deployer, beneficiary, SimpleWill, ERC20_token_contracts, ERC7
 
 
 @pytest.fixture(scope="module", autouse=True)
-def batch_approve(deployer, ERC20_token_contracts, ERC721_token_contracts, ERC1155_token_contracts, will_contract, value):
+def batch_approve(deployer, ERC20_token_contracts, ERC721_token_contracts, ERC1155_token_contracts, simple_will_contract, value):
     for i in ERC20_token_contracts:
-        i.approve(will_contract.address, value, {'from': deployer})
+        i.approve(simple_will_contract.address, value, {'from': deployer})
     for i in ERC721_token_contracts:
-        i.setApprovalForAll(will_contract.address, True, {'from': deployer})
+        i.setApprovalForAll(simple_will_contract.address, True, {'from': deployer})
     for i in ERC1155_token_contracts:
-        i.setApprovalForAll(will_contract.address, True, {'from': deployer})
+        i.setApprovalForAll(simple_will_contract.address, True, {'from': deployer})
 

@@ -45,7 +45,7 @@ only after release time. Deployer should extend release time to prove his access
 
    Replace `goerli` with the name of the network you wish you use. You may also wish to adjust Brownie's [network settings](https://eth-brownie.readthedocs.io/en/stable/network-management.html).
 
-4. Interact with the smart contract using Brownie console:
+3. Interact with the smart contract using Brownie console:
 
    ```python
    # set new release time

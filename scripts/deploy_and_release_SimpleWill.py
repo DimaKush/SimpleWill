@@ -1,7 +1,7 @@
 import time
-from brownie import TokenERC20, TokenERC721, TokenERC1155, SimpleWill, accounts, config, network
+from brownie import TokenERC20, TokenERC721, TokenERC1155, SimpleWill, config, network
 import datetime
-from ..scripts.get_accounts import get_accounts
+from scripts.get_accounts import get_accounts
 
 
 def main():
@@ -30,7 +30,7 @@ def main():
         for u in range(n_ids):
             TokenERC721[-1].safeMint(deployer, f"someuri_{u}", {'from': deployer})
             TokenERC1155[-1].mint(deployer, u, value, "", {'from': deployer})
-    release_time = round(datetime.datetime.timestamp(datetime.datetime.now() + datetime.timedelta(seconds=60)))
+    release_time = round(datetime.datetime.timestamp(datetime.datetime.now() + datetime.timedelta(seconds=config['settings']['delay'])))
     SimpleWill.deploy(
         beneficiary,
         release_time,

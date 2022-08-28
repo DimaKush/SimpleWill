@@ -20,6 +20,14 @@ contract SimpleWill is Ownable {
     address beneficiary;
     uint256 releaseTime;
 
+    modifier releasable {
+        require(
+            block.timestamp >= releaseTime,
+            "Too early for release"
+        );
+        _;
+    }
+
     /**
      * @notice Constructor
      * @param _beneficiary: address of tokens receiver
@@ -95,11 +103,7 @@ contract SimpleWill is Ownable {
      * @notice Transfer ERC20 tokens from owner to beneficiary.
      * @dev Callable by anybody
      */
-    function releaseERC20(IERC20 tokenERC20) external {
-        require(
-            block.timestamp >= releaseTime,
-            "newReleaseTime < block.timestamp"
-        );
+    function releaseERC20(IERC20 tokenERC20) external releasable {
         uint balance = tokenERC20.balanceOf(owner());
         require(balance != 0, "No ERC20 tokens to release");
         uint allowed = tokenERC20.allowance(owner(), address(this));
@@ -118,12 +122,8 @@ contract SimpleWill is Ownable {
      * @dev Callable by anybody
      */
     function releaseERC721(IERC721 tokenERC721, uint[] calldata tokenIdList)
-        external
+        external releasable
     {
-        require(
-            block.timestamp >= releaseTime,
-            "Current time is before release time"
-        );
         require(
             tokenERC721.isApprovedForAll(owner(), address(this)),
             "ERC721 zero allowance"
@@ -142,11 +142,7 @@ contract SimpleWill is Ownable {
         IERC1155 tokenERC1155,
         uint[] calldata tokenIdList,
         uint[] calldata value
-    ) external {
-        require(
-            block.timestamp >= releaseTime,
-            "Current time is before release time"
-        );
+    ) external releasable {
         require(
             tokenERC1155.isApprovedForAll(owner(), address(this)),
             "ERC1155 zero allowance"
@@ -168,7 +164,7 @@ contract SimpleWill is Ownable {
         uint[][] calldata ERC721tokenIdLists,
         uint[][] calldata ERC1155tokenIdLists,
         uint[][] calldata valueLists
-    ) external {
+    ) external releasable {
         for (uint i = 0; i < tokenERC20List.length; i++) {
             this.releaseERC20(tokenERC20List[i]);
         }
